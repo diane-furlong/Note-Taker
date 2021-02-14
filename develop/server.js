@@ -2,6 +2,7 @@
 const express = require('express')
 const path = require('path')
 const fs = require('fs')
+const { json } = require('express')
 
 // configure express
 const app = express()
@@ -13,9 +14,6 @@ const PORT = process.env.PORT || 8080
 app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
 app.use(express.static(path.join(__dirname, 'public')))
-
-// data
-const notes = []
 
 // routes
 //--------------------
@@ -37,19 +35,50 @@ app.get('/api/notes', function (req, res) {
 
 //create new note
 app.post('/api/notes', function(req, res) {
-  const newNote = req.body
-  // newNote.id = newNote.title.replace(/\s+/g, '').toLowerCase()
-  notes.push(newNote)
-  res.json(newNote)
-  console.log(newNote)
+  //read db.json
+  fs.readFile('./db/db.json', 'utf-8', (err, data) => {
+    
+    if (err) throw err
+    //save the current data in db.json
+    const allNotes = JSON.parse(data)
+    console.log(allNotes)
+    //define the new note and make a unique id
+    const newNote = req.body
+    for(i=0;i<allNotes.length;i++){
+      newNote.id = i
+    }
+    // newNote.id = newNote.title.replace(/\s/g, '').toLowerCase()
+    console.log(newNote.id)
+    //add new note to the current data in db.json
+    allNotes.push(newNote)
+    console.log(allNotes)
+    fs.writeFile('./db/db.json', JSON.stringify(allNotes), (err) => {
+      if(err) {
+        console.log(err)
+      }
+    })
+  })
 })
 
 //delete
 app.delete('/api/notes/:id', function (req, res) {
-  const id = req.params.id
+  const id = req.param.id
+  //read db.json
+  fs.readFile('./db/db.json', 'utf-8', (err, data) => {
+    if (err) throw err
+    const allNotes = JSON.parse(data)
+    for(i=0;i<allNotes.length;i++){
+      if(allNotes.id === $(this).id){
+        allNotes.splice(i, 1)
+      }
+    }
+    fs.writeFile('./db/db.json', JSON.stringify(allNotes), (err) => {
+      if(err) throw err
+    })
+  })
 })
 
 // listener
 app.listen(PORT, () => {
   console.log(`App listening on PORT localhost:${PORT}`)
-});
+})
