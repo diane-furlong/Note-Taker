@@ -44,7 +44,7 @@ app.post('/api/notes', function(req, res) {
     console.log(allNotes)
     //define the new note and make a unique id
     const newNote = req.body
-    for(i=0;i<allNotes.length;i++){
+    for(i=0;i<allNotes.length+1;i++){
       newNote.id = i
     }
     // newNote.id = newNote.title.replace(/\s/g, '').toLowerCase()
@@ -55,6 +55,7 @@ app.post('/api/notes', function(req, res) {
     fs.writeFile('./db/db.json', JSON.stringify(allNotes), (err) => {
       if(err) {
         console.log(err)
+        res.json(allNotes)
       }
     })
   })
@@ -67,8 +68,9 @@ app.delete('/api/notes/:id', function (req, res) {
   fs.readFile('./db/db.json', 'utf-8', (err, data) => {
     if (err) throw err
     const allNotes = JSON.parse(data)
-    for(i=0;i<allNotes.length;i++){
-      if(allNotes.id === $(this).id){
+    for(i=0;i<allNotes.length+1;i++){
+      console.log(allNotes.id[i])
+      if(allNotes.id !== id){
         allNotes.splice(i, 1)
       }
     }
