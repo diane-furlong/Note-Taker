@@ -31,10 +31,10 @@ If running application locally, this requires "npm i" in the command terminal to
 The deployed application can be found here: https://theultimatenotetaker.herokuapp.com/
 
 Homepage:
-![homepage screenshot](assets/homepage_screenshot.gif)
+![homepage screenshot](./assets/homepage_screenshot.gif)
 
 Notes page:
-![notepage_screenshot](assets/notepage_screenshot.gif)
+![notepage_screenshot](./assets/notepage_screenshot.gif)
     
 ## Contributions
     
