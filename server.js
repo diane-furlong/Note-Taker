@@ -19,12 +19,12 @@ app.use(express.static(path.join(__dirname, 'public')))
 
 //HOMEPAGE
 app.get('/', function (req, res) {
-  res.sendFile(path.join(__dirname, '/public/index.html'))
+  res.sendFile(path.join(__dirname, './public/index.html'))
 })
 
 //NOTES PAGE
 app.get('/notes', function (req, res) {
-  res.sendFile(path.join(__dirname, '/public/notes.html'))
+  res.sendFile(path.join(__dirname, './public/notes.html'))
 })
 
 //GET ALL NOTES IN JSON FORMAT
