@@ -19,17 +19,17 @@ app.use(express.static(path.join(__dirname, 'public')))
 
 //HOMEPAGE
 app.get('/', function (req, res) {
-  res.sendFile(path.join(__dirname, 'develop/public/index.html'))
+  res.sendFile(path.join(__dirname, '/public/index.html'))
 })
 
 //NOTES PAGE
 app.get('/notes', function (req, res) {
-  res.sendFile(path.join(__dirname, 'develop/public/notes.html'))
+  res.sendFile(path.join(__dirname, '/public/notes.html'))
 })
 
 //GET ALL NOTES IN JSON FORMAT
 app.get('/api/notes', function (req, res) {
-  res.sendFile(path.join(__dirname, 'develop/db/db.json'), 'utf8', (err, data) => {
+  res.sendFile(path.join(__dirname, './db/db.json'), 'utf8', (err, data) => {
   })
 })
 
@@ -55,7 +55,7 @@ app.get('/api/notes/:id', function (req, res){
 app.post('/api/notes', function(req, res) {
 
   //READ DB.JSON
-  fs.readFile('develop/db/db.json', 'utf-8', (err, data) => {
+  fs.readFile('./db/db.json', 'utf-8', (err, data) => {
     
     if (err) throw err
 
@@ -69,7 +69,7 @@ app.post('/api/notes', function(req, res) {
 
     //ADD NEW NOTE TO CURRENT DATA IN DB.JSON
     allNotes.push(newNote)
-    fs.writeFile('develop/db/db.json', JSON.stringify(allNotes), (err) => {
+    fs.writeFile('./db/db.json', JSON.stringify(allNotes), (err) => {
       if(err) {
         console.log(err)
         res.json(allNotes)
@@ -77,7 +77,7 @@ app.post('/api/notes', function(req, res) {
     })
 
     //SAVE CURRENT DATA IN DB.JSON- DISPLAY ON PAGE
-    fs.writeFile(path.join(__dirname, 'develop/db/db.json'), JSON.stringify(allNotes), (err) => {
+    fs.writeFile(path.join(__dirname, './db/db.json'), JSON.stringify(allNotes), (err) => {
       if(err) throw err
       res.json(req.body)
     })
@@ -89,7 +89,7 @@ app.post('/api/notes', function(req, res) {
 app.delete('/api/notes/:id', function(req, res) {
 
   //READ DB.JSON
-  fs.readFile('develop/db/db.json', 'utf-8', (err, data) => {
+  fs.readFile('./db/db.json', 'utf-8', (err, data) => {
     if (err) throw err
     const allNotes = JSON.parse(data)
     const id = req.params.id
@@ -101,7 +101,7 @@ app.delete('/api/notes/:id', function(req, res) {
     }
 
     //SAVE CURRENT DATA IN DB.JSON- DISPLAY ON PAGE
-    fs.writeFile(path.join(__dirname, 'develop/db/db.json'), JSON.stringify(allNotes), (err) => {
+    fs.writeFile(path.join(__dirname, './db/db.json'), JSON.stringify(allNotes), (err) => {
       if(err) throw err
       res.json(req.body)
     })
